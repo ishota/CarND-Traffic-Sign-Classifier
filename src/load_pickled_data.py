@@ -24,6 +24,6 @@ def load_pickled_data(data_path):
 
 
 if __name__ == '__main__':
-    print("test: load_pickled_data")
+    print("[test]: load_pickled_data")
     path = str(Path('.').resolve().parents[0]) + os.sep + 'traffic-signs-data'
     X_train, y_train, X_valid, y_valid, X_test, y_test = load_pickled_data(path)
