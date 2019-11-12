@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import csv
 import random
 import numpy as np
@@ -51,10 +52,12 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file):
     plt.yticks(left, all_labels)
     plt.show()
 
+    return n_classes
+
 
 if __name__ == '__main__':
     print('[test]: summary_data')
     data_path = str(Path('.').resolve().parents[0]) + os.sep + 'traffic-signs-data'
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
     X_train, y_train, X_valid, y_valid, X_test, y_test = load_pickled_data(data_path)
-    summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
