@@ -8,7 +8,7 @@ from pathlib import Path
 from itertools import groupby
 
 
-def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file):
+def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, debug=False):
 
     # import csv file to read labels
     all_labels = []
@@ -42,7 +42,8 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file):
         plt.title(all_labels[i], fontsize=8)
         plt.axis('off')
         num_of_samples.append(len(x_selected))
-    plt.show()
+    if debug:
+        plt.show()
 
     # plot number of images per label
     plt.figure(figsize=(15, 10))
@@ -50,7 +51,8 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file):
     left = (bins[:-1] + bins[1:]) / 2
     plt.barh(left, hist, align='center')
     plt.yticks(left, all_labels)
-    plt.show()
+    if debug:
+        plt.show()
 
     return n_classes
 
@@ -60,4 +62,4 @@ if __name__ == '__main__':
     data_path = str(Path('.').resolve().parents[0]) + os.sep + 'traffic-signs-data'
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
     X_train, y_train, X_valid, y_valid, X_test, y_test = load_pickled_data(data_path)
-    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, debug=True)

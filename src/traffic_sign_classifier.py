@@ -17,12 +17,19 @@ def main():
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
     n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
 
-    # Training Pipeline
-    logits = LeNet()
-    cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits, tf.one_hot(n_classes))
-    loss_operation = tf.reduce_mean(cross_entropy)
-    optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
-    training_operation = optimizer.minimize(loss_operation)
+    # create the model
+    model = lenet()
+
+    # compile the model
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+    # train the model
+    history = model.fit(X_train, y_train, epochs=10, validation_data=(X_valid, y_valid))
+
+    # evaluate the model
+    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)
+    print('test_loss: ' + str(test_loss))
+    print('test_accuracy: ' + str(test_acc))
 
 
 if __name__ == '__main__':
