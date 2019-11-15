@@ -38,6 +38,7 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, d
         plt.subplot(15, 3, i+1)
         x_selected = X_train[y_train == i]
         random_selected_index = random.randint(0, x_selected.shape[0])
+        random_selected_index = 0
         plt.imshow(x_selected[random_selected_index, :, :, :])
         plt.title(all_labels[i], fontsize=8)
         plt.axis('off')
@@ -55,6 +56,29 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, d
         plt.show()
 
     return n_classes
+
+
+def check_data(X, y, csv_file):
+    all_labels = []
+    with open(csv_file, 'r') as f:
+        read_csv = csv.reader(f, delimiter=',')
+        for row in read_csv:
+            all_labels += [row[1]]
+        all_labels.remove('SignName')
+
+    num_of_samples = []
+    plt.figure(figsize=(10, 15))
+    plt.tight_layout()
+    for i in range(0, len(all_labels)):
+        plt.subplot(15, 3, i+1)
+        x_selected = X[y == i]
+        random_selected_index = random.randint(0, x_selected.shape[0])
+        random_selected_index = 0
+        plt.imshow(x_selected[random_selected_index, :, :, :])
+        plt.title(all_labels[i], fontsize=8)
+        plt.axis('off')
+        num_of_samples.append(len(x_selected))
+    plt.show()
 
 
 if __name__ == '__main__':
