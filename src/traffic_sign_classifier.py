@@ -16,7 +16,7 @@ def basic_lenet():
 
     # summary_data
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
-    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    n_classes, all_labels = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
 
     # create the model
     lenet_model = lenet()
@@ -44,11 +44,11 @@ def main():
 
     # summary_data
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
-    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    n_classes, all_labels = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
 
     # preprocess_data
     processed_X_train, processed_y_train = random_distortion(X_train, y_train)
-    n_classes = summary_data(processed_X_train, processed_y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    n_classes, all_labels = summary_data(processed_X_train, processed_y_train, X_valid, y_valid, X_test, y_test, csv_file)
 
     # create the model
     nn_model = proposed()

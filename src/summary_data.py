@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from load_pickled_data import *
 from pathlib import Path
-from itertools import groupby
 
 
 def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, debug=False):
@@ -51,7 +50,7 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, d
         plt.yticks(left, all_labels)
         plt.show()
 
-    return n_classes
+    return n_classes, all_labels
 
 
 def check_data(X, y, csv_file):
@@ -81,4 +80,4 @@ if __name__ == '__main__':
     data_path = str(Path('.').resolve().parents[0]) + os.sep + 'traffic-signs-data'
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
     X_train, y_train, X_valid, y_valid, X_test, y_test = load_pickled_data(data_path)
-    n_classes = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, debug=True)
+    n_classes, all_labels = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, debug=True)
