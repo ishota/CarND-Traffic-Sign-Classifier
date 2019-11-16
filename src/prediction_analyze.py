@@ -8,19 +8,17 @@ from pathlib import Path
 from copy import deepcopy
 
 
-def prediction_analyze(nn_model, test_images, test_label_id, all_labels):
+def prediction_analyze(nn_model, test_images, test_label_id, all_labels, num_rows=5, num_cols=3):
 
     # load prediction result
     prediction = nn_model.predict(tf.convert_to_tensor(test_images, np.float32))
 
     # calculate number of images
-    num_rows = 5
-    num_cols = 3
     num_images = num_rows * num_cols
 
     # plot random select result
-    random_select_indexes = np.random.randint(0, len(test_label_id), num_images)
-
+    idxes = np.arange(len(test_label_id))
+    random_select_indexes = np.random.choice(idxes, num_images, replace=False)
     plt.figure(figsize=(2*2*num_cols, 2*num_rows))
     count = 0
     for i in random_select_indexes:

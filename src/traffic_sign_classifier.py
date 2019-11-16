@@ -7,6 +7,8 @@ from summary_data import *
 from preprocess_data import *
 from nn_model import *
 from learning_history_analyze import *
+from prediction_analyze import *
+from new_img_prediction import *
 
 
 def basic_lenet():
@@ -69,7 +71,13 @@ def main():
     print('test_loss: ' + str(test_loss))
     print('test_accuracy: ' + str(test_acc))
 
-    exit()
+    # analyze test images
+    prediction_analyze(nn_model, X_test, y_test, all_labels)
+
+    # analyze new test images
+    new_X_test, new_y_test = test_new_img(data_path)
+    prediction_analyze(nn_model, new_X_test, new_y_test, all_labels, num_rows=2, num_cols=3)
+
     # save model
     nn_model.save('proposed_nn_model.h5')
 
