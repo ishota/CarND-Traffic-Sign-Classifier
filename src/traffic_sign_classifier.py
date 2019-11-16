@@ -25,12 +25,15 @@ def basic_lenet():
     lenet_model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     # train the model
-    history = lenet_model.fit(X_train, y_train, epochs=10, validation_data=(X_valid, y_valid))
+    history = lenet_model.fit(X_train, y_train, epochs=10, validation_data=(X_valid, y_valid), verbose=2)
 
     # evaluate the model
     test_loss, test_acc = lenet_model.evaluate(X_test, y_test, verbose=0)
     print('test_loss: ' + str(test_loss))
     print('test_accuracy: ' + str(test_acc))
+
+    # save model
+    lenet_model.save('basic_lenet_model.h5')
 
 
 def main():
@@ -56,12 +59,16 @@ def main():
 
     # train the model
     history = nn_model.fit(processed_X_train, processed_y_train,
-                        epochs=20, batch_size=256, validation_data=(X_valid, y_valid), verbose=2)
+                        epochs=20, batch_size=256, validation_data=(X_valid, y_valid), verbose=2,
+                        use_multiprocessing=True)
 
     # evaluate the model
     test_loss, test_acc = nn_model.evaluate(X_test, y_test, verbose=0)
     print('test_loss: ' + str(test_loss))
     print('test_accuracy: ' + str(test_acc))
+
+    # save model
+    nn_model.save('proposed_nn_model.h5')
 
 
 if __name__ == '__main__':
