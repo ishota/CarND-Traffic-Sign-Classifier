@@ -8,32 +8,38 @@ from pathlib import Path
 from copy import deepcopy
 
 
-def prediction_analyze(nn_model, test_images, y_test, all_labels):
+def prediction_analyze(nn_model, test_images, test_label_id, all_labels):
 
     # load prediction result
     prediction = nn_model.predict(tf.convert_to_tensor(test_images, np.float32))
 
-    # plot random select result
-    random_select_indexes = np.random.randint(0, len(y_test), 15)
+    # calculate number of images
+    num_rows = 5
+    num_cols = 3
+    num_images = num_rows * num_cols
 
-    # plot result as tile
+    # plot random select result
+    random_select_indexes = np.random.randint(0, len(test_label_id), num_images)
+
+    plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+    count = 0
     for i in random_select_indexes:
-        plt.figure(figsize=(6, 3))
         img = test_images[i]
         prediction_array = prediction[i]
         prediction_prob = np.max(prediction_array)
         predicted_label_idx = np.argmax(prediction_array)
         predicted_label = all_labels[predicted_label_idx]
-        true_label_idx = y_test[i]
+        true_label_idx = test_label_id[i]
         true_label = all_labels[true_label_idx]
 
-        plt.subplot(1, 2, 1)
+        plt.subplot(num_rows, 2*num_cols, 2*count+1)
         plot_image_with_label(img, predicted_label_idx, predicted_label, true_label_idx, true_label, prediction_prob)
 
-        plt.subplot(1, 2, 2)
+        plt.subplot(num_rows, 2*num_cols, 2*count+2)
         plot_top5_value_array(prediction_array, all_labels)
 
-        plt.show()
+        count += 1
+    plt.show()
 
 
 def plot_image_with_label(img, predicted_label_idx, predicted_label, true_label_idx, true_label, prediction_prob):
@@ -68,7 +74,7 @@ def plot_top5_value_array(prediction_array, all_labels):
     top5_label = [all_labels[i] for i in prediction_top5_idx]
 
     plt.grid(False)
-    plt.xticks(range(5), top5_label, rotation=90)
+    plt.xticks(range(5), top5_label, rotation=30)
     plt.yticks([])
     thisplot = plt.bar(range(5), prediction_top5_array, color='#777777')
     plt.ylim([0, 1])
