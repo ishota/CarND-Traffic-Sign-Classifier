@@ -31,28 +31,24 @@ def summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file, d
     print("Number of classes =", n_classes)
 
     # plot images with it label
-    num_of_samples = []
-    plt.figure(figsize=(10, 15))
-    plt.tight_layout()
-    for i in range(0, n_classes):
-        plt.subplot(15, 3, i+1)
-        x_selected = X_train[y_train == i]
-        random_selected_index = random.randint(0, x_selected.shape[0])
-        random_selected_index = 0
-        plt.imshow(x_selected[random_selected_index, :, :, :])
-        plt.title(all_labels[i], fontsize=8)
-        plt.axis('off')
-        num_of_samples.append(len(x_selected))
     if debug:
+        plt.figure(figsize=(10, 15))
+        for i in range(0, n_classes):
+            plt.subplot(15, 3, i+1)
+            x_selected = X_train[y_train == i]
+            random_selected_index = random.randint(0, x_selected.shape[0])
+            plt.imshow(x_selected[random_selected_index, :, :, :])
+            plt.title(all_labels[i], fontsize=8)
+            plt.axis('off')
         plt.show()
 
     # plot number of images per label
-    plt.figure(figsize=(15, 10))
-    hist, bins = np.histogram(y_train, bins=n_classes)
-    left = (bins[:-1] + bins[1:]) / 2
-    plt.barh(left, hist, align='center')
-    plt.yticks(left, all_labels)
     if debug:
+        plt.figure(figsize=(15, 10))
+        hist, bins = np.histogram(y_train, bins=n_classes)
+        left = (bins[:-1] + bins[1:]) / 2
+        plt.barh(left, hist, align='center')
+        plt.yticks(left, all_labels)
         plt.show()
 
     return n_classes
@@ -73,7 +69,6 @@ def check_data(X, y, csv_file):
         plt.subplot(15, 3, i+1)
         x_selected = X[y == i]
         random_selected_index = random.randint(0, x_selected.shape[0])
-        random_selected_index = 0
         plt.imshow(x_selected[random_selected_index, :, :, :])
         plt.title(all_labels[i], fontsize=8)
         plt.axis('off')
