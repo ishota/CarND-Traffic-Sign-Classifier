@@ -6,6 +6,7 @@ from load_pickled_data import *
 from summary_data import *
 from preprocess_data import *
 from nn_model import *
+from learning_history_analyze import *
 
 
 def basic_lenet():
@@ -59,14 +60,16 @@ def main():
 
     # train the model
     history = nn_model.fit(processed_X_train, processed_y_train,
-                        epochs=20, batch_size=256, validation_data=(X_valid, y_valid), verbose=2,
-                        use_multiprocessing=True)
+                        epochs=25, batch_size=256, validation_data=(X_valid, y_valid), verbose=2,
+                        workers=2, use_multiprocessing=True)
+    history_analyze(history)
 
     # evaluate the model
     test_loss, test_acc = nn_model.evaluate(X_test, y_test, verbose=0)
     print('test_loss: ' + str(test_loss))
     print('test_accuracy: ' + str(test_acc))
 
+    exit()
     # save model
     nn_model.save('proposed_nn_model.h5')
 
