@@ -9,6 +9,7 @@ from nn_model import *
 from learning_history_analyze import *
 from prediction_analyze import *
 from new_img_prediction import *
+from mid_layer_analyze import *
 
 
 def basic_lenet():
@@ -89,6 +90,8 @@ def main():
     # save model
     nn_model.save('proposed_nn_model.h5')
 
+    # check an intermediate layer
+    layer_analyze(nn_model, std_new_X_test, new_X_test)
 
 
 if __name__ == '__main__':
