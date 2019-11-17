@@ -49,9 +49,14 @@ def main():
     csv_file = str(Path('.').resolve().parents[0]) + os.sep + 'signnames.csv'
     n_classes, all_labels = summary_data(X_train, y_train, X_valid, y_valid, X_test, y_test, csv_file)
 
-    # preprocess_data
+    # preprocess_data: distortion
     processed_X_train, processed_y_train = random_distortion(X_train, y_train)
-    n_classes, all_labels = summary_data(processed_X_train, processed_y_train, X_valid, y_valid, X_test, y_test, csv_file)
+    _, _ = summary_data(processed_X_train, processed_y_train, X_valid, y_valid, X_test, y_test, csv_file)
+
+    # preprocess data: standardization
+    std_processed_X_train = tf.image.per_image_standardization(tf.convert_to_tensor(processed_X_train, np.float32))
+    std_X_valid = tf.image.per_image_standardization(tf.convert_to_tensor(X_valid, np.float32))
+    std_X_test = tf.image.per_image_standardization(tf.convert_to_tensor(X_test, np.float32))
 
     # create the model
     nn_model = proposed()
@@ -61,25 +66,29 @@ def main():
     nn_model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     # train the model
-    history = nn_model.fit(processed_X_train, processed_y_train,
-                        epochs=25, batch_size=256, validation_data=(X_valid, y_valid), verbose=2,
+    # std_processed_X_train = input_normalize(processed_X_train)
+    # std_X_valid = input_normalize(X_valid)
+    history = nn_model.fit(std_processed_X_train, processed_y_train,
+                        epochs=25, batch_size=256, validation_data=(std_X_valid, y_valid), verbose=2,
                         workers=2, use_multiprocessing=True)
     history_analyze(history)
 
     # evaluate the model
-    test_loss, test_acc = nn_model.evaluate(X_test, y_test, verbose=0)
+    test_loss, test_acc = nn_model.evaluate(std_X_test, y_test, verbose=0)
     print('test_loss: ' + str(test_loss))
     print('test_accuracy: ' + str(test_acc))
 
     # analyze test images
-    prediction_analyze(nn_model, X_test, y_test, all_labels)
+    prediction_analyze(nn_model, std_X_test, X_test, y_test, all_labels)
 
     # analyze new test images
     new_X_test, new_y_test = test_new_img(data_path)
-    prediction_analyze(nn_model, new_X_test, new_y_test, all_labels, num_rows=2, num_cols=3)
+    std_new_X_test = tf.image.per_image_standardization(tf.convert_to_tensor(new_X_test, np.float32))
+    prediction_analyze(nn_model, std_new_X_test, new_X_test, new_y_test, all_labels, num_rows=3, num_cols=2)
 
     # save model
     nn_model.save('proposed_nn_model.h5')
+
 
 
 if __name__ == '__main__':

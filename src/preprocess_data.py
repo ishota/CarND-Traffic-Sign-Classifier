@@ -37,5 +37,10 @@ def random_distortion(X_train, y_train):
     return processed_X_train, processed_y_train
 
 
+def input_normalize(images):
+    tensor_images = tf.convert_to_tensor(images, np.float32)
+    return tf.image.per_image_standardization(tensor_images)
+
+
 if __name__ == '__main__':
     pass
