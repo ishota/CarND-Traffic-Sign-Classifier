@@ -2,7 +2,8 @@
 
 ## Writeup
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+This is a project for Udacity lesson of Self-driving car engineer.
+The project is Traffic Sign Classifier that clasifies an image to 43 labels.
 
 ---
 
