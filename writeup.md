@@ -2,8 +2,7 @@
 
 ## Writeup
 
-This is a project for Udacity lesson of Self-driving car engineer.
-The project is Traffic Sign Classifier that clasifies an image to 43 labels.
+This is a project for Udacity lesson of Self-driving car engineer. The project is creating Traffic Sign Classifier that classifies images to 43 kinds. 
 
 ---
 
