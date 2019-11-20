@@ -16,17 +16,6 @@ The goals / steps of this project are the following:
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-[//]: # (Image References)
-
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
-
 ## Rubric Points
 
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation
@@ -125,7 +114,9 @@ I show other setting below.
 * A number of epochs is **25**
 * A number of batch_size is **256**
 
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93
+
+The code for fitting my final model is located in the 11th cell of the Ipython notebook.
 
 My final model results were:
 
@@ -138,28 +129,33 @@ Here I show the history of learning.
 [img4]: ./writeup_image/plot_epoch_accuracy.png "plot_epoch_accuracy"
 ![alt text][img4]
 
+Here I show the 15 results selected randomly.
+
+[img13]: ./writeup_image/plot_test_result.png "plot_test_result"
+![alt text][img13]
+
 First, I implemented LeNet model which summary shown below.
 
 ```python
-Model: "Lenet model"
+Model: "Lenet model (initial implemented model)"
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+Layer (type)                 Output Shape              Param #
 =================================================================
-conv2d (Conv2D)              (None, 28, 28, 6)         456       
+conv2d (Conv2D)              (None, 28, 28, 6)         456
 _________________________________________________________________
-max_pooling2d (MaxPooling2D) (None, 14, 14, 6)         0         
+max_pooling2d (MaxPooling2D) (None, 14, 14, 6)         0
 _________________________________________________________________
-conv2d_1 (Conv2D)            (None, 10, 10, 16)        2416      
+conv2d_1 (Conv2D)            (None, 10, 10, 16)        2416
 _________________________________________________________________
-max_pooling2d_1 (MaxPooling2 (None, 5, 5, 16)          0         
+max_pooling2d_1 (MaxPooling2 (None, 5, 5, 16)          0
 _________________________________________________________________
-flatten (Flatten)            (None, 400)               0         
+flatten (Flatten)            (None, 400)               0
 _________________________________________________________________
-dense (Dense)                (None, 120)               48120     
+dense (Dense)                (None, 120)               48120
 _________________________________________________________________
-dense_1 (Dense)              (None, 84)                10164     
+dense_1 (Dense)              (None, 84)                10164
 _________________________________________________________________
-dense_2 (Dense)              (None, 43)                3655      
+dense_2 (Dense)              (None, 43)                3655
 =================================================================
 Total params: 64,811
 Trainable params: 64,811
@@ -168,7 +164,7 @@ _________________________________________________________________
 ```
 
 But test set accuracy was below 0.93.
-So, I improve some point:
+So, I improve some points:
 
 * Increase a number of epoch to improve under fitting.
 * Increase a convolutional layer to capture smaller features in an image.
@@ -178,48 +174,72 @@ So, I improve some point:
 
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Choose six German traffic signs and discuss what quality or qualities might be difficult to classify
 
-Here are five German traffic signs that I found on the web:
+Here are six German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+[img5]: ./writeup_image/new_test_img.png "new_test_img"
+![alt text][img5]
 
-The first image might be difficult to classify because ...
+I thought each traffic signs have a difficult point to be classified.
 
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+1. [Speed limit (30km/h)] : Not facing the front.
+2. [No passing] : Similar to "No entry".
+3. [Turn left ahead] : Similar to "Turn right ahead".
+4. [Ahead only] : Similar to "Keep right" and "Keep left".
+5. [Go straight or right] : Similar to "Go straight or left".
+6. [Go straight or left] : Similar to "Go straight or right".
+
+#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric)
+
+The model was able to correctly guess 5 traffic signs, which gives an accuracy of 83.3%.
+Compared to accuracy of test set, the model sufficiently classified new 6 test images.
+
+#### 3. Describe how certain the model is when predicting on each of the six new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
 Here are the results of the prediction:
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+[img6]: ./writeup_image/plot_new_test_result.png "plot_new_test_result"
+![alt text][img6]
 
+The code for making predictions on my final model is located in the 17th cell of the Ipython notebook.
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+For the first image, the model is relatively sure that this is a Speed limit 30km/h (probability of 0.78), but also estimates a Speed limit 80km/h.
+The reason why it estimates 80km/h is a 3 is similar to 8.
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+For the socond image, the model failed to classify.
+A correct answer is "No entry" but the model classified "No passing".
+I guess the model learned similar features because These two images have a similar shape with horizontal lines.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
+For the remaining images, the model classified correctly.
+I think that the model was able to properly classify images with different orientations because it did not use rotation or flipping in the pre-processing part.
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
+#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications
 
+Since there was a possibility that "No entry" and "No passing" were learning the same feature, a feature map of each convolution layer was output.
+First, three feature maps of "No entry" are shown in depth order.
+I found that horizontal lines were extracted as features.
+
+[img7]: ./writeup_image/no_entry_mid1.png "no_entry_mid1"
+![alt text][img7]
+
+[img8]: ./writeup_image/no_entry_mid2.png "no_entry_mid2"
+![alt text][img8]
+
+[img9]: ./writeup_image/no_entry_mid3.png "no_entry_mid3"
+![alt text][img9]
+
+Next, three feature maps of "No passing" are shown in depth order.
+The model also learned the horizontal lines feature map.
+This is one of the reasons why the model failed to classify.
+
+[img10]: ./writeup_image/no_pass_mid1.png "no_pass_mid1"
+![alt text][img10]
+
+[img11]: ./writeup_image/no_pass_mid2.png "no_pass_mid2"
+![alt text][img11]
+
+[img12]: ./writeup_image/no_pass_mid3.png "no_pass_mid3"
+![alt text][img12]
