@@ -75,7 +75,9 @@ The size of trainging set is finaly **69598** as double of training set before p
 
 My final model consisted of the following layers:
 
-```
+```python
+Model: "Proposed model"
+_________________________________________________________________
 Layer (type)                 Output Shape              Param #
 =================================================================
 conv2d (Conv2D)              (None, 30, 30, 6)         168
@@ -112,33 +114,67 @@ _________________________________________________________________
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate
 
-To train the model, I used an ....
+To train the model, I used a RMSprop optimizer.
+The RMSprop optimizer is proposed by [Geoffrey Hinton's lecture](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf).
+The RMSprop is equivalent to using the gradient.
+In this optimizer, a learning rate decreases gradually.
+I use default initial learning rate which is 0.001.
+
+I show other setting below.
+
+* A number of epochs is **25**
+* A number of batch_size is **256**
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
 
-* training set accuracy of **0.9916**
-* validation set accuracy of **0.9757**
-* test set accuracy of **0.9515**
+* training set accuracy is **0.9916**
+* validation set accuracy is **0.9757**
+* test set accuracy is **0.9515**
 
 Here I show the history of learning.
 
 [img4]: ./writeup_image/plot_epoch_accuracy.png "plot_epoch_accuracy"
 ![alt text][img4]
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+First, I implemented LeNet model which summary shown below.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+```python
+Model: "Lenet model"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 28, 28, 6)         456       
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 14, 14, 6)         0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 10, 10, 16)        2416      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 5, 5, 16)          0         
+_________________________________________________________________
+flatten (Flatten)            (None, 400)               0         
+_________________________________________________________________
+dense (Dense)                (None, 120)               48120     
+_________________________________________________________________
+dense_1 (Dense)              (None, 84)                10164     
+_________________________________________________________________
+dense_2 (Dense)              (None, 43)                3655      
+=================================================================
+Total params: 64,811
+Trainable params: 64,811
+Non-trainable params: 0
+_________________________________________________________________
+```
+
+But test set accuracy was below 0.93.
+So, I improve some point:
+
+* Increase a number of epoch to improve under fitting.
+* Increase a convolutional layer to capture smaller features in an image.
+* Increase a max pooling layer to blur the features that emerge in the convolutional layer and to learn that they are the same as other similar feature.
+* Add Dropout layer to suppress over fitting but the number of epochs increase.
+* Add L2-regularization to suppress over fitting.
 
 ### Test a Model on New Images
 
