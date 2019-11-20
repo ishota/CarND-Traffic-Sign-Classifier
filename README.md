@@ -30,7 +30,7 @@ You also try the model on images that you find.
 ## Demo
 
 I show part of the classification result.
-You can see the summary of this project in `Traffic_Sign_Classifier.ipynb` or `Traffic_sign_Classifier.html`.
+You can see the details of this project in `Traffic_Sign_Classifier.ipynb` or `Traffic_sign_Classifier.html`.
 
 [img1]: ./writeup_image/plot_test_result.png "plot_test_result"
 ![alt text][img1]
@@ -40,7 +40,7 @@ You can see the summary of this project in `Traffic_Sign_Classifier.ipynb` or `T
 * tensorflow**2.0**
 * numpy
 * matplotlib
-* picle
+* pickle
 * opencv
 
 ## Quick start guide
